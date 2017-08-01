@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:asyncRpc="http://www.zhoudan.com/schema/asyncRpc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+			http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+			http://www.springframework.org/schema/context
+			http://www.springframework.org/schema/context/spring-context.xsd
+			http://www.zhoudan.com/schema/asyncRpc
+			http://www.zhoudan.com/schema/asyncRpc/asyncRpc.xsd">
+
+    <context:property-placeholder location="classpath*:*.properties"/>
+    <context:component-scan base-package="org.zhou.menasor"/>
+
+    <asyncRpc:producer id="demoService"
+                       interface="org.zhou.menasor.menasor.demo.service.DemoService"
+                       bootstrapServers="10.200.106.41:9092"/>
+</beans>

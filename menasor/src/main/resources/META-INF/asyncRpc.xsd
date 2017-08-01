@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<xsd:schema xmlns="http://www.zhoudan.com/schema/asyncRpc"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns:beans="http://www.springframework.org/schema/beans"
+            xmlns:tool="http://www.springframework.org/schema/tool"
+            targetNamespace="http://www.zhoudan.com/schema/asyncRpc"
+            elementFormDefault="qualified" attributeFormDefault="unqualified">
+
+    <xsd:import namespace="http://www.springframework.org/schema/beans"/>
+    <xsd:import namespace="http://www.springframework.org/schema/tool"/>
+
+    <xsd:element name="consumer">
+        <xsd:complexType>
+            <xsd:complexContent>
+                <xsd:extension base="beans:identifiedType">
+                    <xsd:attribute name="interface" type="xsd:token" use="required">
+                        <xsd:annotation>
+                            <xsd:documentation><![CDATA[ 接口类 ]]></xsd:documentation>
+                            <xsd:appinfo>
+                                <tool:annotation>
+                                    <tool:expected-type type="java.lang.Class"/>
+                                </tool:annotation>
+                            </xsd:appinfo>
+                        </xsd:annotation>
+                    </xsd:attribute>
+
+                    <xsd:attribute name="execnum" type="xsd:int" use="required">
+                        <xsd:annotation>
+                            <xsd:documentation><![CDATA[ 执行单元数 ]]></xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:attribute>
+
+                    <xsd:attribute name="ref" type="xsd:string" use="required">
+                        <xsd:annotation>
+                            <xsd:documentation>
+                                <![CDATA[ The service implementation instance bean id. ]]></xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:attribute>
+
+
+                    <xsd:attribute name="bootstrapServers" type="xsd:string" use="required">
+                        <xsd:annotation>
+                            <xsd:documentation><![CDATA[ kafka地址 host:port ]]></xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:attribute>
+
+                    <xsd:attribute name="groupId" type="xsd:string" use="required">
+                        <xsd:annotation>
+                            <xsd:documentation><![CDATA[ kafka groupId ]]></xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:attribute>
+
+                    <xsd:attribute name="autoCommit" type="xsd:boolean" use="optional" default="true">
+                        <xsd:annotation>
+                            <xsd:documentation><![CDATA[ autoCommit ]]></xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:attribute>
+
+                    <xsd:attribute name="maxPollIntervalMs" type="xsd:int" use="optional" default="300000">
+                        <xsd:annotation>
+                            <xsd:documentation><![CDATA[ kafka 最大轮询间隔毫秒 ]]></xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:attribute>
+
+                    <xsd:attribute name="maxPollRecords" type="xsd:int" use="optional" default="30">
+                        <xsd:annotation>
+                            <xsd:documentation><![CDATA[ kafka 最大拉取记录数]]></xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:attribute>
+
+                    <xsd:attribute name="autoCommitIntervalMs" type="xsd:int" use="optional" default="1000">
+                        <xsd:annotation>
+                            <xsd:documentation><![CDATA[ kafka 自动提交间隔毫秒 ]]></xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:attribute>
+
+                    <xsd:attribute name="keyDeserializer" type="xsd:string" use="optional"
+                                   default="org.apache.kafka.common.serialization.StringDeserializer">
+                        <xsd:annotation>
+                            <xsd:documentation><![CDATA[ keyDeserializer ]]></xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:attribute>
+
+                    <xsd:attribute name="valueDeserializer" type="xsd:string" use="optional"
+                                   default="org.zhou.menasor.async.serialization.serialization.AsyncDTODeserializer">
+                        <xsd:annotation>
+                            <xsd:documentation><![CDATA[ keyDeserializer ]]></xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:attribute>
+
+                </xsd:extension>
+            </xsd:complexContent>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="producer">
+        <xsd:complexType>
+            <xsd:complexContent>
+                <xsd:extension base="beans:identifiedType">
+                    <xsd:attribute name="interface" type="xsd:token" use="required">
+                        <xsd:annotation>
+                            <xsd:documentation><![CDATA[ 接口类 ]]></xsd:documentation>
+                            <xsd:appinfo>
+                                <tool:annotation>
+                                    <tool:expected-type type="java.lang.Class"/>
+                                </tool:annotation>
+                            </xsd:appinfo>
+                        </xsd:annotation>
+                    </xsd:attribute>
+
+                    <xsd:attribute name="bootstrapServers" type="xsd:string" use="required">
+                        <xsd:annotation>
+                            <xsd:documentation><![CDATA[ kafka地址 host:port. ]]></xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:attribute>
+
+                    <xsd:attribute name="acks" type="xsd:int" use="optional" default="1">
+                        <xsd:annotation>
+                            <xsd:documentation><![CDATA[kafka acks ]]></xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:attribute>
+
+                    <xsd:attribute name="retries" type="xsd:int" use="optional" default="5">
+                        <xsd:annotation>
+                            <xsd:documentation><![CDATA[ kafka retries ]]></xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:attribute>
+
+                    <xsd:attribute name="keySerializer" type="xsd:string" use="optional"
+                                   default="org.apache.kafka.common.serialization.StringSerializer">
+                        <xsd:annotation>
+                            <xsd:documentation><![CDATA[ keySerializer ]]></xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:attribute>
+
+                    <xsd:attribute name="valueSerializer" type="xsd:string" use="optional"
+                                   default="org.zhou.menasor.async.serialization.serialization.AsyncDTOSerializer">
+                        <xsd:annotation>
+                            <xsd:documentation><![CDATA[ valueSerializer ]]></xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:attribute>
+
+                </xsd:extension>
+            </xsd:complexContent>
+        </xsd:complexType>
+    </xsd:element>
+
+</xsd:schema>

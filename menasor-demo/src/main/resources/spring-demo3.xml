@@ -1,0 +1,26 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
+
+    <bean id="pojoInvocationHandler"
+          class="org.zhou.menasor.menasor.demo.demo.demo3.PojoInvocationHandler"></bean>
+
+    <bean id="AnyInterfaceClass" class="java.lang.Class" factory-method="forName">
+        <constructor-arg
+                value="demo.demo3.AnyInterface"/>
+    </bean>
+
+    <bean id="anyInterface" class="java.lang.reflect.Proxy" factory-method="newProxyInstance">
+        <constructor-arg>
+            <bean factory-bean="AnyInterfaceClass"
+                  factory-method="getClassLoader"/>
+        </constructor-arg>
+        <constructor-arg>
+            <list>
+                <ref bean="AnyInterfaceClass"/>
+            </list>
+        </constructor-arg>
+        <constructor-arg ref="pojoInvocationHandler"/>
+    </bean>
+</beans>
