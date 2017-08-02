@@ -5,8 +5,7 @@ import org.apache.logging.log4j.Logger;
 import org.zhou.menasor.async.consumer.consumer.Consumer;
 import org.zhou.menasor.async.consumer.consumer.impl.KafkaConsumer;
 import org.zhou.menasor.menasor.impl.AsyncHandleServiceImpl;
-
-import java.util.Properties;
+import org.zhou.menasor.menasor.properties.ConsumerProperties;
 
 /**
  * Created by DT283 on 2017/7/3.
@@ -15,12 +14,12 @@ public class AsyncProxyExecute {
 
     private final static Logger logger = LogManager.getLogger(AsyncProxyExecute.class);
 
-    public static Consumer exec(String interfac, int executorNum, Object clazz, Properties properties) {
+    public static Consumer exec(String interfac, int executorNum, Object clazz, ConsumerProperties properties) {
         try {
             Consumer consumer = new KafkaConsumer(interfac,
                     executorNum,
                     new AsyncHandleServiceImpl(clazz),
-                    properties);
+                    properties.getProperties());
             consumer.start();
             return consumer;
         } catch (Exception e) {

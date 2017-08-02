@@ -3,17 +3,9 @@ package org.zhou.menasor.menasor.schema;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.config.BeanDefinition;
-import org.springframework.beans.factory.config.ConstructorArgumentValues;
-import org.springframework.beans.factory.config.RuntimeBeanNameReference;
-import org.springframework.beans.factory.support.RootBeanDefinition;
 import org.springframework.beans.factory.xml.BeanDefinitionParser;
 import org.springframework.beans.factory.xml.ParserContext;
 import org.w3c.dom.Element;
-import org.zhou.menasor.menasor.properties.KafkaProperties;
-import org.zhou.menasor.menasor.proxy.AsyncProxyExecute;
-import org.zhou.menasor.menasor.proxy.AsyncProxyFactory;
-
-import java.util.Properties;
 
 /**
  * Created by DT283 on 2017/7/4.
@@ -21,7 +13,12 @@ import java.util.Properties;
 public class AsyncRpcBeanDefinitionParser2 implements BeanDefinitionParser {
     private final static Logger logger = LogManager.getLogger(AsyncRpcBeanDefinitionParser2.class);
 
-    public static Properties createProducerProperties(Element element) {
+    @Override
+    public BeanDefinition parse(Element element, ParserContext parserContext) {
+        return null;
+    }
+
+    /*public static Properties createProducerProperties(Element element) {
         String bootstrapServers = element.getAttribute("bootstrapServers");
         String acks = element.getAttribute("acks");
         String retries = element.getAttribute("retries");
@@ -67,7 +64,7 @@ public class AsyncRpcBeanDefinitionParser2 implements BeanDefinitionParser {
         } else if (element.getLocalName().equals("producer")) {
             beanDefinition.setBeanClass(AsyncProxyFactory.class);
         }
-        parserContext.getRegistry().registerBeanDefinition(id, beanDefinition);
+        parserContext.getRegistry().registerBeanDefinition(id,beanDefinition);
         return null;
-    }
+    }*/
 }

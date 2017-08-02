@@ -1,6 +1,8 @@
 package org.zhou.menasor.menasor.proxy;
 
+
 import org.zhou.menasor.menasor.invocationHandler.AsyncInvocationHandler;
+import org.zhou.menasor.menasor.properties.ProducerProperties;
 
 import java.lang.reflect.Proxy;
 
@@ -9,8 +11,8 @@ import java.lang.reflect.Proxy;
  */
 public class AsyncProxyFactory {
 
-    public static Object getKafkaProxy(AsyncInvocationHandler h) {
-        Class<?> classType = h.getClassType();
+    public static Object getKafkaProxy(Class<?> classType, ProducerProperties properties) {
+        AsyncInvocationHandler h = new AsyncInvocationHandler(classType, properties.getProperties());
         // 获取动态代理类
         Object proxy = Proxy.newProxyInstance(classType.getClassLoader(),
                 new Class[]{classType}, h);

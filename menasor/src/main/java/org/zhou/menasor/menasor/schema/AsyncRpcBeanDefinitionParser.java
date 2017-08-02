@@ -2,22 +2,23 @@ package org.zhou.menasor.menasor.schema;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
+import org.springframework.beans.factory.support.RootBeanDefinition;
 import org.springframework.beans.factory.xml.AbstractSingleBeanDefinitionParser;
+import org.springframework.beans.factory.xml.ParserContext;
 import org.w3c.dom.Element;
-import org.zhou.menasor.menasor.invocationHandler.AsyncInvocationHandler;
-import org.zhou.menasor.menasor.properties.KafkaProperties;
+import org.zhou.menasor.menasor.properties.ConsumerProperties;
+import org.zhou.menasor.menasor.properties.ProducerProperties;
 import org.zhou.menasor.menasor.proxy.AsyncProxyExecute;
 import org.zhou.menasor.menasor.proxy.AsyncProxyFactory;
-
-import java.util.Properties;
 
 /**
  * Created by DT283 on 2017/7/4.
  */
 public class AsyncRpcBeanDefinitionParser extends AbstractSingleBeanDefinitionParser {
     private final static Logger logger = LogManager.getLogger(AsyncRpcBeanDefinitionParser.class);
+
+    private int i = 0;
 
     @Override
     protected Class<?> getBeanClass(Element element) {
@@ -30,7 +31,7 @@ public class AsyncRpcBeanDefinitionParser extends AbstractSingleBeanDefinitionPa
     }
 
     @Override
-    protected void doParse(Element element, BeanDefinitionBuilder bean) {
+    protected void doParse(Element element, ParserContext parserContext, BeanDefinitionBuilder bean) {
         try {
             if (element.getLocalName().equals("consumer")) {
                 String ref = element.getAttribute("ref");
@@ -41,17 +42,23 @@ public class AsyncRpcBeanDefinitionParser extends AbstractSingleBeanDefinitionPa
                     bean.addConstructorArgValue(interfac);
                     bean.addConstructorArgValue(Integer.valueOf(execnum));
                     bean.addConstructorArgReference(ref);
-                    bean.addConstructorArgValue(createConsumerProperties(element));
+                    RootBeanDefinition consumer = createConsumer(element);
+                    String beanName = "consumer" + i++;
+                    parserContext.getRegistry().registerBeanDefinition(beanName, consumer);
+                    bean.addConstructorArgReference(beanName);
                 }
             } else if (element.getLocalName().equals("producer")) {
                 String interfac = element.getAttribute("interface");
                 if (!interfac.isEmpty()) {
-                    bean.getBeanDefinition().setAutowireCandidate(true);
+                    /*bean.getBeanDefinition().setAutowireCandidate(true);
                     bean.setScope(ConfigurableBeanFactory.SCOPE_SINGLETON);
-                    bean.setLazyInit(false);
+                    bean.setLazyInit(false);*/
                     bean.setFactoryMethod("getKafkaProxy");
-                    bean.addConstructorArgValue(new AsyncInvocationHandler(Class.forName(interfac),
-                            createProducerProperties(element)));
+                    String beanName = "producer" + i++;
+                    RootBeanDefinition producer = createProducer(element);
+                    parserContext.getRegistry().registerBeanDefinition(beanName, producer);
+                    bean.addConstructorArgValue(Class.forName(interfac));
+                    bean.addConstructorArgReference(beanName);
                 }
             }
         } catch (Exception e) {
@@ -59,28 +66,43 @@ public class AsyncRpcBeanDefinitionParser extends AbstractSingleBeanDefinitionPa
         }
     }
 
-    public static Properties createProducerProperties(Element element) {
-        String bootstrapServers = element.getAttribute("bootstrapServers");
-        String acks = element.getAttribute("acks");
-        String retries = element.getAttribute("retries");
-        String keySerializer = element.getAttribute("keySerializer");
-        String valueSerializer = element.getAttribute("valueSerializer");
-
-        return KafkaProperties.createProducerProperties(bootstrapServers, acks, retries, keySerializer, valueSerializer);
+    public RootBeanDefinition createProducer(Element element) {
+        RootBeanDefinition beanDefinition = new RootBeanDefinition();
+        beanDefinition.setBeanClass(ProducerProperties.class);
+        beanDefinition.setLazyInit(false);
+        beanDefinition.getPropertyValues().addPropertyValue("bootstrapServers",
+                element.getAttribute("bootstrapServers"));
+        beanDefinition.getPropertyValues().addPropertyValue("acks",
+                element.getAttribute("acks"));
+        beanDefinition.getPropertyValues().addPropertyValue("retries",
+                element.getAttribute("retries"));
+        beanDefinition.getPropertyValues().addPropertyValue("keySerializer",
+                element.getAttribute("keySerializer"));
+        beanDefinition.getPropertyValues().addPropertyValue("valueSerializer",
+                element.getAttribute("valueSerializer"));
+        return beanDefinition;
     }
 
-    public static Properties createConsumerProperties(Element element) {
-        String bootstrapServers = element.getAttribute("bootstrapServers");
-        String autoCommit = element.getAttribute("autoCommit");
-        String maxPollIntervalMs = element.getAttribute("maxPollIntervalMs");
-        String maxPollRecords = element.getAttribute("maxPollRecords");
-        String autoCommitIntervalMs = element.getAttribute("autoCommitIntervalMs");
-        String keyDeserializer = element.getAttribute("keyDeserializer");
-        String valueDeserializer = element.getAttribute("valueDeserializer");
-        String groupId = element.getAttribute("groupId");
-
-        return KafkaProperties.createConsumerProperties(bootstrapServers, autoCommit, maxPollIntervalMs, maxPollRecords,
-                autoCommitIntervalMs, keyDeserializer, valueDeserializer, groupId);
+    public RootBeanDefinition createConsumer(Element element) {
+        RootBeanDefinition beanDefinition = new RootBeanDefinition();
+        beanDefinition.setBeanClass(ConsumerProperties.class);
+        beanDefinition.setLazyInit(false);
+        beanDefinition.getPropertyValues().addPropertyValue("bootstrapServers",
+                element.getAttribute("bootstrapServers"));
+        beanDefinition.getPropertyValues().addPropertyValue("autoCommit",
+                element.getAttribute("autoCommit"));
+        beanDefinition.getPropertyValues().addPropertyValue("maxPollIntervalMs",
+                element.getAttribute("maxPollIntervalMs"));
+        beanDefinition.getPropertyValues().addPropertyValue("maxPollRecords",
+                element.getAttribute("maxPollRecords"));
+        beanDefinition.getPropertyValues().addPropertyValue("autoCommitIntervalMs",
+                element.getAttribute("autoCommitIntervalMs"));
+        beanDefinition.getPropertyValues().addPropertyValue("keyDeserializer",
+                element.getAttribute("keyDeserializer"));
+        beanDefinition.getPropertyValues().addPropertyValue("valueDeserializer",
+                element.getAttribute("valueDeserializer"));
+        beanDefinition.getPropertyValues().addPropertyValue("groupId",
+                element.getAttribute("groupId"));
+        return beanDefinition;
     }
-
 }

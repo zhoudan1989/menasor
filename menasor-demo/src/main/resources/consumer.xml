@@ -17,18 +17,18 @@
                        interface="org.zhou.menasor.menasor.demo.service.DemoService"
                        execnum="2"
                        ref="demoServiceImpl"
-                       bootstrapServers="10.200.106.41:9092"
+                       bootstrapServers="${bootstrapServers}"
                        groupId="demoTest"/>
 
     <asyncRpc:producer id="demo2Service"
                        interface="org.zhou.menasor.menasor.demo.service.Demo2Service"
-                       bootstrapServers="10.200.106.41:9092"/>
+                       bootstrapServers="${bootstrapServers}"/>
 
     <asyncRpc:consumer id="demo2ServiceConsumer"
                        interface="org.zhou.menasor.menasor.demo.service.Demo2Service"
                        execnum="2"
                        ref="demo2ServiceImpl"
-                       bootstrapServers="10.200.106.41:9092"
+                       bootstrapServers="${bootstrapServers}"
                        groupId="demoTest"/>
 
 
