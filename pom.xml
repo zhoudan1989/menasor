@@ -10,11 +10,8 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>async-consumer</module>
-        <module>async-producer</module>
         <module>menasor</module>
         <module>menasor-demo</module>
-        <module>async-serialization</module>
     </modules>
 
 </project>

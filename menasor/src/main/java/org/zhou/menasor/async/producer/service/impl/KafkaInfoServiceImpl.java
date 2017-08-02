@@ -1,6 +1,5 @@
 package org.zhou.menasor.async.producer.service.impl;
 
-import com.alibaba.fastjson.JSON;
 import org.apache.kafka.clients.producer.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -31,16 +30,16 @@ public class KafkaInfoServiceImpl implements ProducerService {
 
     public void sendMessage(String topic, String kafkaKey, AsyncDTO kafkaInfo) {
         if (kafkaInfo != null) {
-            Callback callback = new Callback() {
+            /*Callback callback = new Callback() {
                 public void onCompletion(RecordMetadata metadata, Exception exception) {
-                    CallbackLog log = new CallbackLog().setTimestamp(metadata.timestamp()).setTopic(metadata.topic());
-                    logger.info(JSON.toJSON(log));
                     if (exception != null) {
+                        CallbackLog log = new CallbackLog().setTimestamp(metadata.timestamp()).setTopic(metadata.topic());
+                        logger.info(log);
                         logger.error(exception);
                     }
                 }
-            };
-            producer.send(new ProducerRecord<String, AsyncDTO>(topic, kafkaKey, kafkaInfo), callback);
+            };*/
+            producer.send(new ProducerRecord<String, AsyncDTO>(topic, kafkaKey, kafkaInfo)/*, callback*/);
         }
     }
 
@@ -64,6 +63,10 @@ public class KafkaInfoServiceImpl implements ProducerService {
         public CallbackLog setTopic(String topic) {
             this.topic = topic;
             return this;
+        }
+
+        public String toString(){
+            return "timestamp:"+timestamp+"; topic:"+topic;
         }
     }
 }

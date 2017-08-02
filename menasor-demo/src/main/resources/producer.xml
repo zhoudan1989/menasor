@@ -10,8 +10,8 @@
 			http://www.zhoudan.com/schema/asyncRpc
 			http://www.zhoudan.com/schema/asyncRpc/asyncRpc.xsd">
 
-    <context:property-placeholder location="classpath*:*.properties"/>
     <context:component-scan base-package="org.zhou.menasor"/>
+    <context:property-placeholder location="classpath*:*.properties"/>
 
     <asyncRpc:producer id="demoService"
                        interface="org.zhou.menasor.menasor.demo.service.DemoService"

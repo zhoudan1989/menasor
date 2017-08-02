@@ -20,7 +20,6 @@
                        bootstrapServers="10.200.106.41:9092"
                        groupId="demoTest"/>
 
-
     <asyncRpc:producer id="demo2Service"
                        interface="org.zhou.menasor.menasor.demo.service.Demo2Service"
                        bootstrapServers="10.200.106.41:9092"/>
