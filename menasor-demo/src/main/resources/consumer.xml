@@ -15,7 +15,7 @@
 
     <asyncRpc:consumer id="demoServiceConsumer"
                        interface="org.zhou.menasor.menasor.demo.service.DemoService"
-                       execnum="2"
+                       execnum="${execnum}"
                        ref="demoServiceImpl"
                        bootstrapServers="${bootstrapServers}"
                        groupId="demoTest"/>

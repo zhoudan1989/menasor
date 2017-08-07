@@ -7,6 +7,7 @@ import java.util.Properties;
  */
 public class ProducerProperties {
     private Properties properties = new Properties();
+    private String interfac;
 
     public Properties getProperties() {
         return properties;
@@ -34,6 +35,15 @@ public class ProducerProperties {
 
     public ProducerProperties setValueSerializer(String valueSerializer) {
         properties.put("value.serializer", valueSerializer);
+        return this;
+    }
+
+    public String getInterfac() {
+        return interfac;
+    }
+
+    public ProducerProperties setInterfac(String interfac) {
+        this.interfac = interfac;
         return this;
     }
 }

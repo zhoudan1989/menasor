@@ -14,11 +14,11 @@ public class AsyncProxyExecute {
 
     private final static Logger logger = LogManager.getLogger(AsyncProxyExecute.class);
 
-    public static Consumer exec(String interfac, int executorNum, Object clazz, ConsumerProperties properties) {
+    public static Consumer exec(ConsumerProperties properties) {
         try {
-            Consumer consumer = new KafkaConsumer(interfac,
-                    executorNum,
-                    new AsyncHandleServiceImpl(clazz),
+            Consumer consumer = new KafkaConsumer(properties.getInterfac(),
+                    properties.getExecnum(),
+                    new AsyncHandleServiceImpl(properties.getRef()),
                     properties.getProperties());
             consumer.start();
             return consumer;

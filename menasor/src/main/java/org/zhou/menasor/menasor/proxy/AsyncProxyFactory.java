@@ -11,7 +11,8 @@ import java.lang.reflect.Proxy;
  */
 public class AsyncProxyFactory {
 
-    public static Object getKafkaProxy(Class<?> classType, ProducerProperties properties) {
+    public static Object getKafkaProxy(ProducerProperties properties) throws ClassNotFoundException {
+        Class<?> classType = Class.forName(properties.getInterfac());
         AsyncInvocationHandler h = new AsyncInvocationHandler(classType, properties.getProperties());
         // 获取动态代理类
         Object proxy = Proxy.newProxyInstance(classType.getClassLoader(),

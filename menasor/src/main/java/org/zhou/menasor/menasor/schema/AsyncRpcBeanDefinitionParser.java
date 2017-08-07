@@ -39,12 +39,9 @@ public class AsyncRpcBeanDefinitionParser extends AbstractSingleBeanDefinitionPa
                 String interfac = element.getAttribute("interface");
                 if (!interfac.isEmpty() && !execnum.isEmpty() && !ref.isEmpty()) {
                     bean.setFactoryMethod("exec");
-                    bean.addConstructorArgValue(interfac);
-                    bean.addConstructorArgValue(Integer.valueOf(execnum));
-                    bean.addConstructorArgReference(ref);
-                    RootBeanDefinition consumer = createConsumer(element);
+                    BeanDefinitionBuilder consumer = createConsumer(element);
                     String beanName = "consumer" + i++;
-                    parserContext.getRegistry().registerBeanDefinition(beanName, consumer);
+                    parserContext.getRegistry().registerBeanDefinition(beanName, consumer.getBeanDefinition());
                     bean.addConstructorArgReference(beanName);
                 }
             } else if (element.getLocalName().equals("producer")) {
@@ -55,9 +52,8 @@ public class AsyncRpcBeanDefinitionParser extends AbstractSingleBeanDefinitionPa
                     bean.setLazyInit(false);*/
                     bean.setFactoryMethod("getKafkaProxy");
                     String beanName = "producer" + i++;
-                    RootBeanDefinition producer = createProducer(element);
-                    parserContext.getRegistry().registerBeanDefinition(beanName, producer);
-                    bean.addConstructorArgValue(Class.forName(interfac));
+                    BeanDefinitionBuilder producer = createProducer(element);
+                    parserContext.getRegistry().registerBeanDefinition(beanName, producer.getBeanDefinition());
                     bean.addConstructorArgReference(beanName);
                 }
             }
@@ -66,43 +62,50 @@ public class AsyncRpcBeanDefinitionParser extends AbstractSingleBeanDefinitionPa
         }
     }
 
-    public RootBeanDefinition createProducer(Element element) {
-        RootBeanDefinition beanDefinition = new RootBeanDefinition();
-        beanDefinition.setBeanClass(ProducerProperties.class);
-        beanDefinition.setLazyInit(false);
-        beanDefinition.getPropertyValues().addPropertyValue("bootstrapServers",
+    public BeanDefinitionBuilder createProducer(Element element) {
+        BeanDefinitionBuilder builder = BeanDefinitionBuilder.rootBeanDefinition(ProducerProperties.class.getName());
+        builder.setLazyInit(false);
+        builder.addPropertyValue("bootstrapServers",
                 element.getAttribute("bootstrapServers"));
-        beanDefinition.getPropertyValues().addPropertyValue("acks",
+        builder.addPropertyValue("acks",
                 element.getAttribute("acks"));
-        beanDefinition.getPropertyValues().addPropertyValue("retries",
+        builder.addPropertyValue("retries",
                 element.getAttribute("retries"));
-        beanDefinition.getPropertyValues().addPropertyValue("keySerializer",
+        builder.addPropertyValue("keySerializer",
                 element.getAttribute("keySerializer"));
-        beanDefinition.getPropertyValues().addPropertyValue("valueSerializer",
+        builder.addPropertyValue("valueSerializer",
                 element.getAttribute("valueSerializer"));
-        return beanDefinition;
+        builder.addPropertyValue("valueSerializer",
+                element.getAttribute("valueSerializer"));
+        builder.addPropertyValue("interfac",
+                element.getAttribute("interface"));
+        return builder;
     }
 
-    public RootBeanDefinition createConsumer(Element element) {
-        RootBeanDefinition beanDefinition = new RootBeanDefinition();
-        beanDefinition.setBeanClass(ConsumerProperties.class);
-        beanDefinition.setLazyInit(false);
-        beanDefinition.getPropertyValues().addPropertyValue("bootstrapServers",
+    public BeanDefinitionBuilder createConsumer(Element element) {
+        BeanDefinitionBuilder builder = BeanDefinitionBuilder.rootBeanDefinition(ConsumerProperties.class.getName());
+        builder.setLazyInit(false);
+        builder.addPropertyValue("bootstrapServers",
                 element.getAttribute("bootstrapServers"));
-        beanDefinition.getPropertyValues().addPropertyValue("autoCommit",
+        builder.addPropertyValue("autoCommit",
                 element.getAttribute("autoCommit"));
-        beanDefinition.getPropertyValues().addPropertyValue("maxPollIntervalMs",
+        builder.addPropertyValue("maxPollIntervalMs",
                 element.getAttribute("maxPollIntervalMs"));
-        beanDefinition.getPropertyValues().addPropertyValue("maxPollRecords",
+        builder.addPropertyValue("maxPollRecords",
                 element.getAttribute("maxPollRecords"));
-        beanDefinition.getPropertyValues().addPropertyValue("autoCommitIntervalMs",
+        builder.addPropertyValue("autoCommitIntervalMs",
                 element.getAttribute("autoCommitIntervalMs"));
-        beanDefinition.getPropertyValues().addPropertyValue("keyDeserializer",
+        builder.addPropertyValue("keyDeserializer",
                 element.getAttribute("keyDeserializer"));
-        beanDefinition.getPropertyValues().addPropertyValue("valueDeserializer",
+        builder.addPropertyValue("valueDeserializer",
                 element.getAttribute("valueDeserializer"));
-        beanDefinition.getPropertyValues().addPropertyValue("groupId",
+        builder.addPropertyValue("groupId",
                 element.getAttribute("groupId"));
-        return beanDefinition;
+        builder.addPropertyReference("ref",element.getAttribute("ref"));
+        builder.addPropertyValue("execnum",
+                element.getAttribute("execnum"));
+        builder.addPropertyValue("interfac",
+                element.getAttribute("interface"));
+        return builder;
     }
 }

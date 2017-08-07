@@ -28,7 +28,7 @@
                         </xsd:annotation>
                     </xsd:attribute>
 
-                    <xsd:attribute name="execnum" type="xsd:int" use="required">
+                    <xsd:attribute name="execnum" type="xsd:string" use="required">
                         <xsd:annotation>
                             <xsd:documentation><![CDATA[ 执行单元数 ]]></xsd:documentation>
                         </xsd:annotation>

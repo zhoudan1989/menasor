@@ -7,6 +7,9 @@ import java.util.Properties;
  */
 public class ConsumerProperties {
     private Properties properties = new Properties();
+    private Object ref;
+    private Integer execnum;
+    private String interfac;
 
     public Properties getProperties() {
         return properties;
@@ -49,6 +52,33 @@ public class ConsumerProperties {
 
     public ConsumerProperties setGroupId(String groupId) {
         properties.put("group.id", groupId);
+        return this;
+    }
+
+    public Object getRef() {
+        return ref;
+    }
+
+    public ConsumerProperties setRef(Object ref) {
+        this.ref = ref;
+        return this;
+    }
+
+    public Integer getExecnum() {
+        return execnum;
+    }
+
+    public ConsumerProperties setExecnum(Integer execnum) {
+        this.execnum = execnum;
+        return this;
+    }
+
+    public String getInterfac() {
+        return interfac;
+    }
+
+    public ConsumerProperties setInterfac(String interfac) {
+        this.interfac = interfac;
         return this;
     }
 }
