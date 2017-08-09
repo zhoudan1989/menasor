@@ -1,11 +1,11 @@
-package org.zhou.menasor.menasor.properties;
+package org.zhou.menasor.menasor.config;
 
 import java.util.Properties;
 
 /**
  * Created by DT283 on 2017/8/2.
  */
-public class ConsumerProperties {
+public class ConsumerConfig {
     private Properties properties = new Properties();
     private Object ref;
     private Integer execnum;
@@ -15,42 +15,42 @@ public class ConsumerProperties {
         return properties;
     }
 
-    public ConsumerProperties setBootstrapServers(String bootstrapServers) {
+    public ConsumerConfig setBootstrapServers(String bootstrapServers) {
         properties.put("bootstrap.servers", bootstrapServers);
         return this;
     }
 
-    public ConsumerProperties setAutoCommit(String autoCommit) {
+    public ConsumerConfig setAutoCommit(String autoCommit) {
         properties.put("enable.auto.commit", autoCommit);
         return this;
     }
 
-    public ConsumerProperties setMaxPollIntervalMs(String maxPollIntervalMs) {
+    public ConsumerConfig setMaxPollIntervalMs(String maxPollIntervalMs) {
         properties.put("max.poll.interval.ms", maxPollIntervalMs);
         return this;
     }
 
-    public ConsumerProperties setMaxPollRecords(String maxPollRecords) {
+    public ConsumerConfig setMaxPollRecords(String maxPollRecords) {
         properties.put("max.poll.records", maxPollRecords);
         return this;
     }
 
-    public ConsumerProperties setAutoCommitIntervalMs(String autoCommitIntervalMs) {
+    public ConsumerConfig setAutoCommitIntervalMs(String autoCommitIntervalMs) {
         properties.put("auto.commit.interval.ms", autoCommitIntervalMs);
         return this;
     }
 
-    public ConsumerProperties setKeyDeserializer(String keyDeserializer) {
+    public ConsumerConfig setKeyDeserializer(String keyDeserializer) {
         properties.put("key.deserializer", keyDeserializer);
         return this;
     }
 
-    public ConsumerProperties setValueDeserializer(String valueDeserializer) {
+    public ConsumerConfig setValueDeserializer(String valueDeserializer) {
         properties.put("value.deserializer", valueDeserializer);
         return this;
     }
 
-    public ConsumerProperties setGroupId(String groupId) {
+    public ConsumerConfig setGroupId(String groupId) {
         properties.put("group.id", groupId);
         return this;
     }
@@ -59,7 +59,7 @@ public class ConsumerProperties {
         return ref;
     }
 
-    public ConsumerProperties setRef(Object ref) {
+    public ConsumerConfig setRef(Object ref) {
         this.ref = ref;
         return this;
     }
@@ -68,7 +68,7 @@ public class ConsumerProperties {
         return execnum;
     }
 
-    public ConsumerProperties setExecnum(Integer execnum) {
+    public ConsumerConfig setExecnum(Integer execnum) {
         this.execnum = execnum;
         return this;
     }
@@ -77,7 +77,7 @@ public class ConsumerProperties {
         return interfac;
     }
 
-    public ConsumerProperties setInterfac(String interfac) {
+    public ConsumerConfig setInterfac(String interfac) {
         this.interfac = interfac;
         return this;
     }

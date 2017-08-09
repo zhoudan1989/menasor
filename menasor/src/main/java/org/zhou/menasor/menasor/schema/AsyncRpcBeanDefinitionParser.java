@@ -3,12 +3,11 @@ package org.zhou.menasor.menasor.schema;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
-import org.springframework.beans.factory.support.RootBeanDefinition;
 import org.springframework.beans.factory.xml.AbstractSingleBeanDefinitionParser;
 import org.springframework.beans.factory.xml.ParserContext;
 import org.w3c.dom.Element;
-import org.zhou.menasor.menasor.properties.ConsumerProperties;
-import org.zhou.menasor.menasor.properties.ProducerProperties;
+import org.zhou.menasor.menasor.config.ConsumerConfig;
+import org.zhou.menasor.menasor.config.ProducerConfig;
 import org.zhou.menasor.menasor.proxy.AsyncProxyExecute;
 import org.zhou.menasor.menasor.proxy.AsyncProxyFactory;
 
@@ -63,7 +62,7 @@ public class AsyncRpcBeanDefinitionParser extends AbstractSingleBeanDefinitionPa
     }
 
     public BeanDefinitionBuilder createProducer(Element element) {
-        BeanDefinitionBuilder builder = BeanDefinitionBuilder.rootBeanDefinition(ProducerProperties.class.getName());
+        BeanDefinitionBuilder builder = BeanDefinitionBuilder.rootBeanDefinition(ProducerConfig.class.getName());
         builder.setLazyInit(false);
         builder.addPropertyValue("bootstrapServers",
                 element.getAttribute("bootstrapServers"));
@@ -83,7 +82,7 @@ public class AsyncRpcBeanDefinitionParser extends AbstractSingleBeanDefinitionPa
     }
 
     public BeanDefinitionBuilder createConsumer(Element element) {
-        BeanDefinitionBuilder builder = BeanDefinitionBuilder.rootBeanDefinition(ConsumerProperties.class.getName());
+        BeanDefinitionBuilder builder = BeanDefinitionBuilder.rootBeanDefinition(ConsumerConfig.class.getName());
         builder.setLazyInit(false);
         builder.addPropertyValue("bootstrapServers",
                 element.getAttribute("bootstrapServers"));

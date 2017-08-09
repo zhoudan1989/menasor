@@ -1,11 +1,11 @@
-package org.zhou.menasor.menasor.properties;
+package org.zhou.menasor.menasor.config;
 
 import java.util.Properties;
 
 /**
  * Created by DT283 on 2017/8/2.
  */
-public class ProducerProperties {
+public class ProducerConfig {
     private Properties properties = new Properties();
     private String interfac;
 
@@ -13,27 +13,27 @@ public class ProducerProperties {
         return properties;
     }
 
-    public ProducerProperties setBootstrapServers(String bootstrapServers) {
+    public ProducerConfig setBootstrapServers(String bootstrapServers) {
         properties.put("bootstrap.servers", bootstrapServers);
         return this;
     }
 
-    public ProducerProperties setAcks(String acks) {
+    public ProducerConfig setAcks(String acks) {
         properties.put("acks", acks);
         return this;
     }
 
-    public ProducerProperties setRetries(String retries) {
+    public ProducerConfig setRetries(String retries) {
         properties.put("retries", retries);
         return this;
     }
 
-    public ProducerProperties setKeySerializer(String keySerializer) {
+    public ProducerConfig setKeySerializer(String keySerializer) {
         properties.put("key.serializer", keySerializer);
         return this;
     }
 
-    public ProducerProperties setValueSerializer(String valueSerializer) {
+    public ProducerConfig setValueSerializer(String valueSerializer) {
         properties.put("value.serializer", valueSerializer);
         return this;
     }
@@ -42,7 +42,7 @@ public class ProducerProperties {
         return interfac;
     }
 
-    public ProducerProperties setInterfac(String interfac) {
+    public ProducerConfig setInterfac(String interfac) {
         this.interfac = interfac;
         return this;
     }
